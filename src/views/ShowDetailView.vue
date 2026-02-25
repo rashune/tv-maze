@@ -43,6 +43,7 @@ onMounted(async () => {
         <p><strong>Language:</strong> {{ show.language ?? 'N/A' }}</p>
         <p><strong>Runtime:</strong> {{ show.runtime ? `${show.runtime} min` : 'N/A' }}</p>
         <p><strong>Premiered:</strong> {{ show.premiered ?? 'N/A' }}</p>
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <section v-html="show.summaryHtml" />
       </div>
     </article>
