@@ -1,0 +1,6 @@
+@mixin media-cover($ratio: 2 / 3) {
+  width: 100%;
+  aspect-ratio: $ratio;
+  object-fit: cover;
+  display: block;
+}

@@ -8,6 +8,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --section-header-gap: 1rem;
+  --section-header-title-margin: 0;
+  --section-header-title-color: #0b1737;
+  --section-header-title-size: 1.1rem;
+  --section-header-meta-color: #5a6889;
+  --section-header-meta-size: 0.85rem;
+  --section-header-meta-margin: 0;
 }
 
 * {

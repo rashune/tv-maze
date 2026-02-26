@@ -1,0 +1,18 @@
+@use '../tokens' as tokens;
+
+@mixin text-title($font-key: md) {
+  margin: var(--text-title-margin, 0);
+  font-size: var(--text-title-size, #{tokens.get-map(tokens.$fonts, $font-key)});
+  color: var(--text-title-color, #{tokens.get-map(tokens.$colors, text-primary)});
+}
+
+@mixin text-supporting($font-key: sm, $margin-top-key: 1) {
+  margin: var(--text-supporting-margin, #{tokens.get-map(tokens.$spacer, $margin-top-key)} 0 0);
+  color: var(--text-supporting-color, #{tokens.get-map(tokens.$colors, text-secondary)});
+  font-size: var(--text-supporting-size, #{tokens.get-map(tokens.$fonts, $font-key)});
+}
+
+@mixin text-error {
+  margin: var(--text-error-margin, 0);
+  color: var(--text-error-color, #{tokens.get-map(tokens.$colors, status-error)});
+}

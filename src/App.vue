@@ -1,5 +1,5 @@
 <template>
-  <div class="app-shell">
+  <div class="app-wrapper">
     <header class="app-header">
       <p class="brand">TVMaze Explorer</p>
     </header>
@@ -7,24 +7,31 @@
   </div>
 </template>
 
-<style scoped>
-.app-shell {
+<style scoped lang="scss">
+@use './styles/tokens' as tokens;
+
+.app-wrapper {
   max-width: 1240px;
   margin: 0 auto;
-  padding: 1rem 0.9rem 1.4rem;
+  padding: tokens.get-map(tokens.$spacer, 4) 0.9rem
+    calc(tokens.get-map(tokens.$spacer, 5) + tokens.get-map(tokens.$spacer, 1));
 }
 
 .app-header {
-  margin-bottom: 1rem;
+  margin-bottom: tokens.get-map(tokens.$spacer, 4);
 }
 
 .brand {
   margin: 0;
   font-weight: 700;
-  color: #f7fbff;
+  color: tokens.get-map(tokens.$colors, text-contrast);
   letter-spacing: 0.02em;
-  background: linear-gradient(120deg, #0d2f6f, #0f6e87);
-  padding: 0.6rem 0.8rem;
+  background: linear-gradient(
+    120deg,
+    tokens.get-map(tokens.$colors, brand-start),
+    tokens.get-map(tokens.$colors, brand-end)
+  );
+  padding: 0.6rem tokens.get-map(tokens.$spacer, 3);
   border-radius: 0.65rem;
 }
 </style>

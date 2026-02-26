@@ -16,5 +16,9 @@ export const router = createRouter({
       component: ShowDetailView,
       props: true,
     },
+    {
+      path: '/show',
+      redirect: '/',
+    },
   ],
 })

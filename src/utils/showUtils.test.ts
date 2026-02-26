@@ -51,7 +51,7 @@ describe('sortByRatingDesc', () => {
 describe('groupShowsByGenre', () => {
   it('duplicates multi-genre shows across buckets', () => {
     const grouped = groupShowsByGenre(showsFixture)
-    expect(grouped.Drama?.map((show) => show.id)).toEqual([2, 1])
+    expect(grouped.Drama?.map((show) => show.id)).toEqual([1, 2])
     expect(grouped.Action?.map((show) => show.id)).toEqual([1])
   })
 

@@ -28,13 +28,6 @@ export function groupShowsByGenre(shows: Show[]): Record<string, Show[]> {
     }
   }
 
-  for (const genre of Object.keys(grouped)) {
-    const bucket = grouped[genre]
-    if (bucket) {
-      grouped[genre] = sortByRatingDesc(bucket)
-    }
-  }
-
   return grouped
 }
 

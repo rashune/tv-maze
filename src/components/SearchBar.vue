@@ -3,7 +3,7 @@ const query = defineModel<string>({ required: true })
 </script>
 
 <template>
-  <label class="search-shell">
+  <label class="search-wrapper">
     <span class="visually-hidden">Search shows by name</span>
     <input
       v-model="query"
@@ -15,33 +15,24 @@ const query = defineModel<string>({ required: true })
   </label>
 </template>
 
-<style scoped>
-.search-shell {
+<style scoped lang="scss">
+@use '../styles/atoms/index' as atoms;
+@use '../styles/tokens' as tokens;
+
+.search-wrapper {
   display: block;
 }
 
 .search-input {
-  width: 100%;
-  padding: 0.8rem 0.95rem;
-  border-radius: 0.7rem;
-  border: 1px solid #ccd4e4;
-  font-size: 1rem;
-  color: #0f1b3d;
+  @include atoms.field-control(md, md);
+  padding: tokens.get-map(tokens.$spacer, 3) tokens.get-map(tokens.$spacer, 3.8);
 }
 
 .search-input:focus {
-  outline: 2px solid #0f1b3d;
-  outline-offset: 1px;
+  @include atoms.focus-ring(text-primary, 0);
 }
 
 .visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+  @include atoms.visually-hidden;
 }
 </style>

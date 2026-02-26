@@ -1,0 +1,14 @@
+@use '../tokens' as tokens;
+
+@mixin field-control($radius-key: md, $font-key: md) {
+  width: 100%;
+  border-radius: tokens.get-map(tokens.$radius, $radius-key);
+  border: 1px solid tokens.get-map(tokens.$colors, border-control);
+  font-size: tokens.get-map(tokens.$fonts, $font-key);
+  color: tokens.get-map(tokens.$colors, text-primary);
+}
+
+@mixin focus-ring($color-key: text-primary, $offset-key: 0) {
+  outline: 2px solid tokens.get-map(tokens.$colors, $color-key);
+  outline-offset: tokens.get-map(tokens.$spacer, $offset-key);
+}

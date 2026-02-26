@@ -1,0 +1,11 @@
+@use '../tokens' as tokens;
+
+@mixin circle-button($font-key: md) {
+  border: 1px solid var(--circle-button-border, #{tokens.get-map(tokens.$colors, border-subtle)});
+  border-radius: tokens.get-map(tokens.$radius, pill);
+  background-color: var(--circle-button-bg, #{tokens.get-map(tokens.$colors, surface)});
+  color: var(--circle-button-color, #{tokens.get-map(tokens.$colors, text-primary)});
+  font-size: var(--circle-button-font-size, #{tokens.get-map(tokens.$fonts, $font-key)});
+  line-height: 1;
+  cursor: pointer;
+}

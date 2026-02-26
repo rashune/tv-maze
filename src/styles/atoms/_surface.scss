@@ -1,0 +1,18 @@
+@use '../tokens' as tokens;
+
+@mixin surface-panel($radius-key: md) {
+  background: var(--surface-panel-bg, #{tokens.get-map(tokens.$colors, surface)});
+  border: 1px solid
+    var(--surface-panel-border-color, #{tokens.get-map(tokens.$colors, border-subtle)});
+  border-radius: var(--surface-panel-radius, #{tokens.get-map(tokens.$radius, $radius-key)});
+  overflow: hidden;
+  min-height: 100%;
+}
+
+@mixin placeholder-center($font-key: sm) {
+  display: grid;
+  place-items: center;
+  color: var(--placeholder-color, #{tokens.get-map(tokens.$colors, text-muted)});
+  background: var(--placeholder-bg, #{tokens.get-map(tokens.$colors, surface-muted)});
+  font-size: var(--placeholder-size, #{tokens.get-map(tokens.$fonts, $font-key)});
+}

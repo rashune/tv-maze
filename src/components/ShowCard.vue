@@ -8,64 +8,53 @@ defineProps<{
 
 <template>
   <RouterLink :to="`/show/${show.id}`" class="card-link">
-    <article class="card">
+    <article class="card-surface">
       <img
         v-if="show.imageUrl"
-        class="poster"
+        class="card-poster"
         :src="show.imageUrl"
         :alt="`${show.name} poster`"
         loading="lazy"
       />
-      <div v-else class="poster placeholder">No Image</div>
-      <div class="meta">
-        <h3 class="title">{{ show.name }}</h3>
-        <p class="rating">Rating: {{ show.rating ?? 'N/A' }}</p>
+      <div v-else class="card-poster card-placeholder">No Image</div>
+      <div class="card-meta">
+        <h3 class="card-title">{{ show.name }}</h3>
+        <p class="card-rating">Rating: {{ show.rating ?? 'N/A' }}</p>
       </div>
     </article>
   </RouterLink>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+@use 'sass:math';
+@use '../styles/atoms/index' as atoms;
+
 .card-link {
-  text-decoration: none;
+  @include atoms.link-reset;
+  width: var(--show-card-width, 190px);
 }
 
-.card {
-  background: #ffffff;
-  border: 1px solid #e2e8f2;
-  border-radius: 0.9rem;
-  overflow: hidden;
-  min-height: 100%;
+.card-surface {
+  @include atoms.surface-panel(md);
 }
 
-.poster {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  display: block;
+.card-poster {
+  @include atoms.media-cover(math.div(2, 3));
 }
 
-.placeholder {
-  display: grid;
-  place-items: center;
-  color: #4f5d7f;
-  background: #e9eef7;
-  font-size: 0.9rem;
+.card-placeholder {
+  @include atoms.placeholder-center(sm);
 }
 
-.meta {
-  padding: 0.55rem 0.65rem 0.8rem;
+.card-meta {
+  @include atoms.inset-padding(2, 3, 3);
 }
 
-.title {
-  margin: 0;
-  font-size: 0.92rem;
-  color: #0f1b3d;
+.card-title {
+  @include atoms.text-title(md);
 }
 
-.rating {
-  margin: 0.3rem 0 0;
-  color: #425172;
-  font-size: 0.86rem;
+.card-rating {
+  @include atoms.text-supporting(sm, 1);
 }
 </style>

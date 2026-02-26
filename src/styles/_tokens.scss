@@ -1,0 +1,53 @@
+@use 'sass:map';
+
+$spacer: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  3.8: 0.95rem,
+  4: 1rem,
+  5: 1.25rem,
+  6: 1.5rem,
+);
+
+$fonts: (
+  xs: 0.75rem,
+  sm: 0.86rem,
+  md: 0.92rem,
+  lg: 1.1rem,
+  xl: 1.55rem,
+);
+
+$radius: (
+  sm: 0.5rem,
+  md: 0.9rem,
+  lg: 1.2rem,
+  pill: 999px,
+);
+
+$colors: (
+  surface: #ffffff,
+  border-subtle: #e2e8f2,
+  border-control: #ccd4e4,
+  text-primary: #0f1b3d,
+  text-secondary: #425172,
+  text-muted: #4f5d7f,
+  text-soft: #3c4a6d,
+  text-contrast: #f7fbff,
+  text-accent: #173072,
+  status-error: #8b1e3f,
+  surface-muted: #e9eef7,
+  brand-start: #0d2f6f,
+  brand-end: #0f6e87,
+);
+
+@function get-map($collection, $key) {
+  $value: map.get($collection, $key);
+
+  @if $value == null {
+    @error "Token key `#{$key}` not found in map.";
+  }
+
+  @return $value;
+}
