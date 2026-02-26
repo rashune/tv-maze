@@ -26,35 +26,33 @@ defineProps<{
 </template>
 
 <style scoped lang="scss">
-@use 'sass:math';
-@use '../styles/atoms/index' as atoms;
+@use '../styles/molecules/card' as card;
 
 .card-link {
-  @include atoms.link-reset;
-  width: var(--show-card-width, 190px);
+  @include card.card-link;
 }
 
 .card-surface {
-  @include atoms.surface-panel(md);
+  @include card.card-surface;
 }
 
 .card-poster {
-  @include atoms.media-cover(math.div(2, 3));
+  @include card.card-poster;
 }
 
 .card-placeholder {
-  @include atoms.placeholder-center(sm);
+  @include card.card-placeholder;
 }
 
 .card-meta {
-  @include atoms.inset-padding(2, 3, 3);
+  @include card.card-meta;
 }
 
 .card-title {
-  @include atoms.text-title(md);
+  @include card.card-title;
 }
 
 .card-rating {
-  @include atoms.text-supporting(sm, 1);
+  @include card.card-rating;
 }
 </style>

@@ -1,0 +1,31 @@
+@use 'sass:math';
+@use '../atoms/index' as atoms;
+
+@mixin card-link {
+  @include atoms.link-reset;
+  width: var(--show-card-width, 190px);
+}
+
+@mixin card-surface {
+  @include atoms.surface-panel(md);
+}
+
+@mixin card-poster {
+  @include atoms.media-cover(math.div(2, 3));
+}
+
+@mixin card-placeholder {
+  @include atoms.placeholder-center(sm);
+}
+
+@mixin card-meta {
+  @include atoms.inset-padding(2, 3, 3);
+}
+
+@mixin card-title {
+  @include atoms.text-title(md);
+}
+
+@mixin card-rating {
+  @include atoms.text-supporting(sm, 1);
+}
