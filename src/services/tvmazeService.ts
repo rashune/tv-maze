@@ -1,6 +1,7 @@
 import type { RawShow, Show } from '../types/show'
 
-const SHOWS_SOURCE_URL = import.meta.env.VITE_SHOWS_SOURCE_URL ?? 'https://api.tvmaze.com/shows'
+const BASE_URL = import.meta.env.VITE_BASE_URL ?? 'https://api.tvmaze.com'
+const SHOWS_SOURCE_URL = `${BASE_URL}/shows`
 
 let showsCache: Show[] | null = null
 let inFlightRequest: Promise<Show[]> | null = null

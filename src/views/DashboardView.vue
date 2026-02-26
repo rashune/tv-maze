@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue'
 import GenreRow from '../components/GenreRow.vue'
 import SearchBar from '../components/SearchBar.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
+import { useRouteScrollMemory } from '../composables/useRouteScrollMemory'
 import { fetchShows } from '../services/tvmazeService'
 import { groupShowsByGenre, searchShowsByName, sortByRatingDesc } from '../utils/showUtils'
 import type { Show } from '../types/show'
@@ -11,6 +12,8 @@ const shows = ref<Show[]>([])
 const searchQuery = ref('')
 const loading = ref(true)
 const errorMessage = ref('')
+
+useRouteScrollMemory('dashboard', { ready: loading })
 
 const filteredShows = computed(() => searchShowsByName(shows.value, searchQuery.value))
 

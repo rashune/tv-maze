@@ -4,8 +4,13 @@
       <p class="brand">TVMaze Explorer</p>
     </header>
     <RouterView />
+    <ScrollToTopButton />
   </div>
 </template>
+
+<script setup lang="ts">
+import ScrollToTopButton from './components/ui/ScrollToTopButton.vue'
+</script>
 
 <style scoped lang="scss">
 @use './styles/tokens' as tokens;
