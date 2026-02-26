@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import GenreRow from '../components/GenreRow.vue'
 import SearchBar from '../components/SearchBar.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
+import { useShows } from '../composables/useShows'
 import { useRouteScrollMemory } from '../composables/useRouteScrollMemory'
-import { fetchShows } from '../services/tvmazeService'
 import { groupShowsByGenre, searchShowsByName, sortByRatingDesc } from '../utils/showUtils'
-import type { Show } from '../types/show'
 
-const shows = ref<Show[]>([])
+const { shows, loading, errorMessage } = useShows()
 const searchQuery = ref('')
-const loading = ref(true)
-const errorMessage = ref('')
 
 useRouteScrollMemory('dashboard', { ready: loading })
 
@@ -22,16 +19,6 @@ const groupedGenres = computed(() => {
   return Object.entries(grouped)
     .map(([genre, genreShows]) => [genre, sortByRatingDesc(genreShows)] as const)
     .sort(([first], [second]) => first.localeCompare(second))
-})
-
-onMounted(async () => {
-  try {
-    shows.value = await fetchShows()
-  } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Unexpected error'
-  } finally {
-    loading.value = false
-  }
 })
 </script>
 

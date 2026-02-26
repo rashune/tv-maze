@@ -1,30 +1,17 @@
-﻿<script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LoadingState from '../components/ui/LoadingState.vue'
-import { fetchShows } from '../services/tvmazeService'
-import type { Show } from '../types/show'
+import { useShows } from '../composables/useShows'
 
 const route = useRoute()
-const show = ref<Show | null>(null)
-const loading = ref(true)
-const errorMessage = ref('')
+const { shows, loading, errorMessage } = useShows()
 
 const showId = computed(() => Number(route.params.id))
-
-onMounted(async () => {
-  try {
-    const shows = await fetchShows()
-    show.value = shows.find((item) => item.id === showId.value) ?? null
-    if (!show.value) {
-      errorMessage.value = 'Show not found'
-    }
-  } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : 'Unexpected error'
-  } finally {
-    loading.value = false
-  }
-})
+const show = computed(() => shows.value.find((item) => item.id === showId.value) ?? null)
+const notFoundMessage = computed(() =>
+  !loading.value && !errorMessage.value && !show.value ? 'Show not found' : ''
+)
 </script>
 
 <template>
@@ -35,7 +22,9 @@ onMounted(async () => {
     </RouterLink>
 
     <LoadingState v-if="loading" message="Loading show detail..." />
-    <p v-else-if="errorMessage" class="detail-page-error">{{ errorMessage }}</p>
+    <p v-else-if="errorMessage || notFoundMessage" class="detail-page-error">
+      {{ errorMessage || notFoundMessage }}
+    </p>
 
     <article v-else-if="show" class="detail-page-layout">
       <img
