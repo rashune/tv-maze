@@ -14,6 +14,7 @@ function mapRawShow(rawShow: RawShow): Show {
     status: rawShow.status,
     rating: rawShow.rating?.average ?? null,
     imageUrl: rawShow.image?.medium ?? rawShow.image?.original ?? null,
+    originalImageUrl: rawShow.image?.original ?? rawShow.image?.medium ?? null,
     summaryHtml: rawShow.summary ?? '',
     language: rawShow.language ?? null,
     runtime: rawShow.runtime ?? null,

@@ -18,6 +18,7 @@ export interface Show {
   status: string
   rating: number | null
   imageUrl: string | null
+  originalImageUrl: string | null
   summaryHtml: string
   language: string | null
   runtime: number | null

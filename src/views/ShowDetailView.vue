@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import LoadingState from '../components/ui/LoadingState.vue'
+import { useResponsiveImageSource } from '../composables/useResponsiveImageSource'
 import { useShows } from '../composables/useShows'
 
 const route = useRoute()
@@ -12,6 +13,11 @@ const show = computed(() => shows.value.find((item) => item.id === showId.value)
 const notFoundMessage = computed(() =>
   !loading.value && !errorMessage.value && !show.value ? 'Show not found' : ''
 )
+const mobilePosterSrc = computed(() => show.value?.imageUrl ?? null)
+const desktopPosterSrc = computed(() => show.value?.originalImageUrl ?? null)
+const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, desktopPosterSrc, {
+  mediaQuery: '(min-width: 992px)',
+})
 </script>
 
 <template>
@@ -28,9 +34,9 @@ const notFoundMessage = computed(() =>
 
     <article v-else-if="show" class="detail-page-layout">
       <img
-        v-if="show.imageUrl"
+        v-if="detailPosterSrc"
         class="detail-page-poster"
-        :src="show.imageUrl"
+        :src="detailPosterSrc"
         :alt="`${show.name} poster`"
       />
       <div class="detail-page-content">
