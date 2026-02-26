@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import ErrorState from '../components/ui/ErrorState.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import { useResponsiveImageSource } from '../composables/useResponsiveImageSource'
 import { useShows } from '../composables/useShows'
@@ -13,6 +14,10 @@ const show = computed(() => shows.value.find((item) => item.id === showId.value)
 const notFoundMessage = computed(() =>
   !loading.value && !errorMessage.value && !show.value ? 'Show not found' : ''
 )
+const stateErrorTitle = computed(() =>
+  errorMessage.value ? 'Could not load show detail' : 'Show not found'
+)
+const stateErrorMessage = computed(() => errorMessage.value || notFoundMessage.value)
 const mobilePosterSrc = computed(() => show.value?.imageUrl ?? null)
 const desktopPosterSrc = computed(() => show.value?.originalImageUrl ?? null)
 const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, desktopPosterSrc, {
@@ -27,10 +32,8 @@ const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, deskt
       <span>Back to dashboard</span>
     </RouterLink>
 
-    <LoadingState v-if="loading" message="Loading show detail..." />
-    <p v-else-if="errorMessage || notFoundMessage" class="detail-page-error">
-      {{ errorMessage || notFoundMessage }}
-    </p>
+    <LoadingState v-if="loading" title="Fetching details" message="Loading show detail..." />
+    <ErrorState v-else-if="stateErrorMessage" :title="stateErrorTitle" :message="stateErrorMessage" />
 
     <article v-else-if="show" class="detail-page-layout">
       <img
@@ -80,10 +83,6 @@ const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, deskt
   align-items: center;
   gap: tokens.get-map(tokens.$spacer, 2);
   color: tokens.get-map(tokens.$colors, text-accent);
-}
-
-.detail-page-error {
-  @include atoms.text-error;
 }
 
 .detail-page-layout {

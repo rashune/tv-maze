@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import GenreRow from '../components/GenreRow.vue'
 import SearchBar from '../components/SearchBar.vue'
+import ErrorState from '../components/ui/ErrorState.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import { useShows } from '../composables/useShows'
 import { useRouteScrollMemory } from '../composables/useRouteScrollMemory'
@@ -29,8 +30,8 @@ const groupedGenres = computed(() => {
       <SearchBar v-model="searchQuery" />
     </section>
 
-    <LoadingState v-if="loading" message="Loading shows..." />
-    <p v-else-if="errorMessage" class="dashboard-error-text">{{ errorMessage }}</p>
+    <LoadingState v-if="loading" title="Fetching shows" />
+    <ErrorState v-else-if="errorMessage" :message="errorMessage" />
     <p v-else-if="groupedGenres.length === 0">No shows found.</p>
 
     <section v-else class="rows">
@@ -62,9 +63,5 @@ const groupedGenres = computed(() => {
 
 .rows {
   @include atoms.stack(5);
-}
-
-.dashboard-error-text {
-  @include atoms.text-error;
 }
 </style>
