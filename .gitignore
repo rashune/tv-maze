@@ -17,8 +17,6 @@ data
 context/*
 data/*
 
-README.md
-
 # Editor directories and files
 .vscode
 .vscode/*
