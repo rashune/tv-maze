@@ -40,7 +40,7 @@ onMounted(async () => {
     </section>
 
     <LoadingState v-if="loading" message="Loading shows..." />
-    <p v-else-if="errorMessage">{{ errorMessage }}</p>
+    <p v-else-if="errorMessage" class="dashboard-error-text">{{ errorMessage }}</p>
     <p v-else-if="groupedGenres.length === 0">No shows found.</p>
 
     <section v-else class="rows">
@@ -72,5 +72,9 @@ onMounted(async () => {
 
 .rows {
   @include atoms.stack(5);
+}
+
+.dashboard-error-text {
+  @include atoms.text-error;
 }
 </style>
