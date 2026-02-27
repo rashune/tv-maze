@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, provide, ref, watch } from 'vue'
 import GenreRow from '../components/GenreRow.vue'
 import SearchBar from '../components/SearchBar.vue'
 import ErrorState from '../components/ui/ErrorState.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import { useShows } from '../composables/useShows'
+import { horizontalScrollResetKey } from '../injectionKeys'
 import { useRouteScrollMemory } from '../composables/useRouteScrollMemory'
 import { groupShowsByGenre, searchShowsByName, sortByRatingDesc } from '../utils/showUtils'
 
 const { shows, loading, errorMessage } = useShows()
 const searchQuery = ref('')
+const horizontalResetToken = ref(0)
+
+provide(horizontalScrollResetKey, horizontalResetToken)
 
 useRouteScrollMemory('dashboard', { ready: loading })
 
@@ -21,6 +25,10 @@ const groupedGenres = computed(() => {
     .map(([genre, genreShows]) => [genre, sortByRatingDesc(genreShows)] as const)
     .sort(([first], [second]) => first.localeCompare(second))
 })
+
+watch(searchQuery, () => {
+  horizontalResetToken.value += 1
+}, { flush: 'post' })
 </script>
 
 <template>
@@ -35,12 +43,7 @@ const groupedGenres = computed(() => {
     <p v-else-if="groupedGenres.length === 0">No shows found.</p>
 
     <section v-else class="rows">
-      <GenreRow
-        v-for="[genre, genreShows] in groupedGenres"
-        :key="genre"
-        :genre="genre"
-        :shows="genreShows"
-      />
+      <GenreRow v-for="[genre, genreShows] in groupedGenres" :key="genre" :genre="genre" :shows="genreShows" />
     </section>
   </main>
 </template>

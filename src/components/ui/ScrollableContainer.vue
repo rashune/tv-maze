@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, inject, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { horizontalScrollResetKey } from '../../injectionKeys'
 
 type Axis = 'horizontal' | 'vertical'
 type ScrollDirection = 'previous' | 'next'
@@ -25,6 +26,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const scrollerRef = ref<HTMLElement | null>(null)
 const hasOverflow = ref(false)
+const horizontalResetToken = inject(horizontalScrollResetKey, null)
 let resizeObserver: ResizeObserver | null = null
 let mutationObserver: MutationObserver | null = null
 
@@ -75,6 +77,27 @@ function iconClass(direction: ScrollDirection): string {
   return direction === 'previous' ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right'
 }
 
+function resetScrollPosition(): void {
+  const scroller = scrollerRef.value
+
+  if (!scroller) {
+    return
+  }
+
+  if (props.axis === 'vertical') {
+    if (typeof scroller.scrollTo === 'function') {
+      scroller.scrollTo({ top: 0, behavior: 'auto' })
+    }
+    scroller.scrollTop = 0
+    return
+  }
+
+  if (typeof scroller.scrollTo === 'function') {
+    scroller.scrollTo({ left: 0, behavior: 'auto' })
+  }
+  scroller.scrollLeft = 0
+}
+
 onMounted(() => {
   void nextTick(refreshOverflowState)
   window.addEventListener('resize', refreshOverflowState)
@@ -109,6 +132,13 @@ watch(
     void nextTick(refreshOverflowState)
   }
 )
+
+if (horizontalResetToken) {
+  watch(horizontalResetToken, () => {
+    resetScrollPosition()
+    void nextTick(refreshOverflowState)
+  })
+}
 </script>
 
 <template>

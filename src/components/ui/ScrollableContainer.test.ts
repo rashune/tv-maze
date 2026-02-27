@@ -1,6 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { describe, expect, it } from 'vitest'
+import { horizontalScrollResetKey } from '../../injectionKeys'
 import ScrollableContainer from './ScrollableContainer.vue'
 
 describe('ScrollableContainer', () => {
@@ -85,5 +86,31 @@ describe('ScrollableContainer', () => {
     })
 
     expect(wrapper.find('.scroller-wrapper').classes()).toContain('scroller-wrapper-overlay')
+  })
+
+  it('resets horizontal scroll when injected reset signal changes', async () => {
+    const resetSignal = ref(0)
+
+    const wrapper = mount(ScrollableContainer, {
+      props: {
+        label: 'Test scroller',
+      },
+      global: {
+        provide: {
+          [horizontalScrollResetKey as symbol]: resetSignal,
+        },
+      },
+      slots: {
+        default: '<div>Item</div>',
+      },
+    })
+
+    const scroller = wrapper.find('.scroller').element as HTMLElement
+    scroller.scrollLeft = 180
+
+    resetSignal.value = 1
+    await nextTick()
+
+    expect(scroller.scrollLeft).toBe(0)
   })
 })
