@@ -58,7 +58,10 @@ function handleError() {
     <img
       v-if="src"
       class="poster-image-media"
-      :class="{ 'poster-image-media--visible': hasLoaded && !hasError }"
+      :class="{
+        'poster-image-media--visible': hasLoaded && !hasError,
+        'poster-image-media--hidden': hasError,
+      }"
       :src="src"
       :alt="alt"
       :loading="loading"
@@ -115,6 +118,10 @@ function handleError() {
   opacity: 1;
 }
 
+.poster-image-media--hidden {
+  display: none;
+}
+
 .poster-image-loading {
   position: absolute;
   inset: 0;
@@ -163,6 +170,8 @@ function handleError() {
 }
 
 .poster-image-error {
+  position: absolute;
+  inset: 0;
   @include atoms.placeholder-center(sm);
 }
 
