@@ -7,18 +7,6 @@ A responsive Vue 3 dashboard that:
 - supports show detail navigation
 - supports name search
 
-## Data Source
-
-Default base URL is TVMaze API (`https://api.tvmaze.com`).
-
-Shows are fetched from `${baseUrl}/shows` (for example: `https://api.tvmaze.com/shows`).
-
-You can override the base URL with:
-
-```bash
-VITE_BASE_URL=https://api.tvmaze.com
-```
-
 ## Requirements
 
 - Node.js: `v22.20.0`
@@ -64,9 +52,12 @@ npm run test
   - mobile/tablet: medium image
   - desktop: original image
   - implemented via reusable `useResponsiveImageSource` composable.
+- added reusable `Image` UI component with loading and error states.
+- dashboard now remembers search via route query (`?q=...`) when moving between dashboard and detail routes.
 
 ## Navigation UX
 
+- horizontal genre-row scroll is reset on search changes from dashboard-level state (not from item-list mutations).
 - dashboard vertical scroll position is saved before route leave and restored when returning from detail pages.
 - this is implemented via a reusable composable (`useRouteScrollMemory`) so other routes can adopt the same pattern.
 - for further development, the same idea can be applied to preserve horizontal scroll state per genre row.
@@ -78,3 +69,16 @@ npm run test
 - `styles/molecules/` composes those atoms into higher-level patterns.
 - `styles/molecules/_card.scss` surfaces the card pattern as a molecule, consumed in `ShowCard.vue` via class-based includes.
 - other repeated component patterns can be promoted to molecules the same way to keep styles readable and composable.
+
+
+## Data Source
+
+Default base URL is TVMaze API (`https://api.tvmaze.com`).
+
+Shows are fetched from `${baseUrl}/shows` (for example: `https://api.tvmaze.com/shows`).
+
+You can override the base URL with:
+
+```bash
+VITE_BASE_URL=https://api.tvmaze.com
+```
