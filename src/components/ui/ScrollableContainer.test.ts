@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent, nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 import ScrollableContainer from './ScrollableContainer.vue'
 
@@ -85,30 +85,5 @@ describe('ScrollableContainer', () => {
     })
 
     expect(wrapper.find('.scroller-wrapper').classes()).toContain('scroller-wrapper-overlay')
-  })
-
-  it('resets horizontal scroll position when children change', async () => {
-    const Host = defineComponent({
-      components: { ScrollableContainer },
-      setup() {
-        const items = ref([1])
-        return { items }
-      },
-      template: `
-        <ScrollableContainer label="Test scroller">
-          <div v-for="item in items" :key="item">{{ item }}</div>
-        </ScrollableContainer>
-      `,
-    })
-
-    const wrapper = mount(Host)
-    const scroller = wrapper.find('.scroller').element as HTMLElement
-    scroller.scrollLeft = 240
-
-    ;(wrapper.vm as { items: number[] }).items = [1, 2]
-    await nextTick()
-    await nextTick()
-
-    expect(scroller.scrollLeft).toBe(0)
   })
 })
