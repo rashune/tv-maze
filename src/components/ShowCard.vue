@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Image from './ui/Image.vue'
 import type { Show } from '../types/show'
 
 defineProps<{
@@ -9,14 +10,12 @@ defineProps<{
 <template>
   <RouterLink :to="`/show/${show.id}`" class="card-link">
     <article class="card-surface">
-      <img
-        v-if="show.imageUrl"
+      <Image
         class="card-poster"
-        :src="show.imageUrl"
+        :src="show.imageUrl ?? null"
         :alt="`${show.name} poster`"
         loading="lazy"
       />
-      <div v-else class="card-poster card-placeholder">No Image</div>
       <div class="card-meta">
         <h3 class="card-title">{{ show.name }}</h3>
         <p class="card-rating">Rating: {{ show.rating ?? 'N/A' }}</p>
@@ -38,10 +37,6 @@ defineProps<{
 
 .card-poster {
   @include card.card-poster;
-}
-
-.card-placeholder {
-  @include card.card-placeholder;
 }
 
 .card-meta {
