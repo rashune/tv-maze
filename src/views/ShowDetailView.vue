@@ -21,6 +21,10 @@ const stateErrorTitle = computed(() =>
 const stateErrorMessage = computed(() => errorMessage.value || notFoundMessage.value)
 const mobilePosterSrc = computed(() => show.value?.imageUrl ?? null)
 const desktopPosterSrc = computed(() => show.value?.originalImageUrl ?? null)
+const dashboardLink = computed(() => ({
+  path: '/',
+  query: route.query,
+}))
 const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, desktopPosterSrc, {
   mediaQuery: '(min-width: 992px)',
 })
@@ -28,7 +32,7 @@ const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, deskt
 
 <template>
   <main class="detail-page">
-    <RouterLink class="detail-page-back-link" to="/">
+    <RouterLink class="detail-page-back-link" :to="dashboardLink">
       <i class="fa-solid fa-arrow-left" aria-hidden="true" />
       <span>Back to dashboard</span>
     </RouterLink>

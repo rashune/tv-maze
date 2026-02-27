@@ -1,9 +1,10 @@
 :root {
+  --app-background: #f3f7ff;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.45;
   font-weight: 400;
   color: #0f1b3d;
-  background: radial-gradient(circle at top left, #eef7ff, #f6f9ff 55%, #eaf2ff);
+  background: var(--app-background);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

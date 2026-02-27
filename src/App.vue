@@ -16,9 +16,11 @@ import ScrollToTopButton from './components/ui/ScrollToTopButton.vue'
 @use './styles/tokens' as tokens;
 
 .app-wrapper {
+  --app-shell-top-padding: #{tokens.get-map(tokens.$spacer, 4)};
+  --app-shell-side-padding: 0.9rem;
   max-width: 1240px;
   margin: 0 auto;
-  padding: tokens.get-map(tokens.$spacer, 4) 0.9rem
+  padding: var(--app-shell-top-padding) var(--app-shell-side-padding)
     calc(tokens.get-map(tokens.$spacer, 5) + tokens.get-map(tokens.$spacer, 1));
 }
 

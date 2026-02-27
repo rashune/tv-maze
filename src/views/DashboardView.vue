@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import { computed, provide, ref, watch } from 'vue'
+import { computed } from 'vue'
+import DashboardTopPanel from '../components/DashboardTopPanel.vue'
 import GenreRow from '../components/GenreRow.vue'
-import SearchBar from '../components/SearchBar.vue'
 import ErrorState from '../components/ui/ErrorState.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
+import { useDashboardSearchQuery } from '../composables/useDashboardSearchQuery'
 import { useShows } from '../composables/useShows'
-import { horizontalScrollResetKey } from '../injectionKeys'
 import { useRouteScrollMemory } from '../composables/useRouteScrollMemory'
 import { groupShowsByGenre, searchShowsByName, sortByRatingDesc } from '../utils/showUtils'
 
 const { shows, loading, errorMessage } = useShows()
-const searchQuery = ref('')
-const horizontalResetToken = ref(0)
-
-provide(horizontalScrollResetKey, horizontalResetToken)
+const { searchQuery } = useDashboardSearchQuery()
 
 useRouteScrollMemory('dashboard', { ready: loading })
 
@@ -25,18 +22,11 @@ const groupedGenres = computed(() => {
     .map(([genre, genreShows]) => [genre, sortByRatingDesc(genreShows)] as const)
     .sort(([first], [second]) => first.localeCompare(second))
 })
-
-watch(searchQuery, () => {
-  horizontalResetToken.value += 1
-}, { flush: 'post' })
 </script>
 
 <template>
   <main class="dashboard">
-    <section class="top-panel">
-      <h1 class="dashboard-title">TV Maze Dashboard</h1>
-      <SearchBar v-model="searchQuery" />
-    </section>
+    <DashboardTopPanel v-model="searchQuery" />
 
     <LoadingState v-if="loading" title="Fetching shows" />
     <ErrorState v-else-if="errorMessage" :message="errorMessage" />
@@ -50,18 +40,9 @@ watch(searchQuery, () => {
 
 <style scoped lang="scss">
 @use '../styles/atoms/index' as atoms;
-@use '../styles/tokens' as tokens;
 
 .dashboard {
   @include atoms.stack(5);
-}
-
-.top-panel {
-  @include atoms.stack(3);
-}
-
-.dashboard-title {
-  @include atoms.text-title(xl);
 }
 
 .rows {

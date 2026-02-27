@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import Image from './ui/Image.vue'
 import type { Show } from '../types/show'
 
-defineProps<{
+const route = useRoute()
+
+const props = defineProps<{
   show: Show
 }>()
+
+const detailLink = computed(() => ({
+  path: `/show/${props.show.id}`,
+  query: route.query,
+}))
 </script>
 
 <template>
-  <RouterLink :to="`/show/${show.id}`" class="card-link">
+  <RouterLink :to="detailLink" class="card-link">
     <article class="card-surface">
       <Image
         class="card-poster"

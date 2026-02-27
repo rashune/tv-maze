@@ -12,3 +12,13 @@
   outline: 2px solid tokens.get-map(tokens.$colors, $color-key);
   outline-offset: tokens.get-map(tokens.$spacer, $offset-key);
 }
+
+@mixin focus-shadow(
+  $border-color: #37589b,
+  $shadow-color: rgb(55 88 155 / 30%),
+  $shadow-size: 3px
+) {
+  outline: none;
+  border-color: $border-color;
+  box-shadow: 0 0 0 $shadow-size $shadow-color;
+}
