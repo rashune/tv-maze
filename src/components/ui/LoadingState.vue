@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Spinner from './Spinner.vue'
+
 withDefaults(
   defineProps<{
     title?: string
@@ -13,7 +15,7 @@ withDefaults(
 
 <template>
   <section class="loading-state" role="status" aria-live="polite">
-    <span class="loading-spinner" aria-hidden="true" />
+    <Spinner />
     <h2 class="loading-title">{{ title }}</h2>
     <p class="loading-message">{{ message }}</p>
   </section>
@@ -34,15 +36,6 @@ withDefaults(
   gap: tokens.get-map(tokens.$spacer, 2);
 }
 
-.loading-spinner {
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 3px solid #bfd1f4;
-  border-top-color: tokens.get-map(tokens.$colors, text-accent);
-  border-radius: 999px;
-  animation: loading-spin 0.9s linear infinite;
-}
-
 .loading-title {
   @include atoms.text-title(lg);
   margin: 0;
@@ -51,15 +44,5 @@ withDefaults(
 .loading-message {
   @include atoms.text-supporting(md, 0);
   --text-supporting-color: #{tokens.get-map(tokens.$colors, text-soft)};
-}
-
-@keyframes loading-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>

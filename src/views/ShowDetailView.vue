@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import ErrorState from '../components/ui/ErrorState.vue'
+import Image from '../components/ui/Image.vue'
 import LoadingState from '../components/ui/LoadingState.vue'
 import { useResponsiveImageSource } from '../composables/useResponsiveImageSource'
 import { useShows } from '../composables/useShows'
@@ -36,11 +37,14 @@ const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, deskt
     <ErrorState v-else-if="stateErrorMessage" :title="stateErrorTitle" :message="stateErrorMessage" />
 
     <article v-else-if="show" class="detail-page-layout">
-      <img
-        v-if="detailPosterSrc"
+      <Image
         class="detail-page-poster"
-        :src="detailPosterSrc"
+        :src="detailPosterSrc ?? null"
         :alt="`${show.name} poster`"
+        loading="eager"
+        :show-spinner="true"
+        loading-text="Loading poster image..."
+        error-text="Poster unavailable"
       />
       <div class="detail-page-content">
         <h1 class="detail-page-title">{{ show.name }}</h1>
@@ -93,6 +97,7 @@ const { src: detailPosterSrc } = useResponsiveImageSource(mobilePosterSrc, deskt
 
 .detail-page-poster {
   width: min(100%, 320px);
+  aspect-ratio: 2 / 3;
   border-radius: tokens.get-map(tokens.$radius, md);
 }
 
