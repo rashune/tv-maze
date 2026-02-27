@@ -67,6 +67,21 @@ function refreshOverflowState(): void {
       : scroller.scrollWidth > scroller.clientWidth + 1
 }
 
+function resetScrollPosition(): void {
+  const scroller = scrollerRef.value
+
+  if (!scroller) {
+    return
+  }
+
+  if (props.axis === 'vertical') {
+    scroller.scrollTop = 0
+    return
+  }
+
+  scroller.scrollLeft = 0
+}
+
 function iconClass(direction: ScrollDirection): string {
   if (props.axis === 'vertical') {
     return direction === 'previous' ? 'fa-solid fa-chevron-up' : 'fa-solid fa-chevron-down'
@@ -88,7 +103,10 @@ onMounted(() => {
 
   if (typeof MutationObserver !== 'undefined' && scrollerRef.value) {
     mutationObserver = new MutationObserver(() => {
-      refreshOverflowState()
+      void nextTick(() => {
+        resetScrollPosition()
+        refreshOverflowState()
+      })
     })
     mutationObserver.observe(scrollerRef.value, {
       childList: true,
